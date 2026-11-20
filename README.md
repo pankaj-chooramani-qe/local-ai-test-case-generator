@@ -21,3 +21,18 @@ On November 20, 2026, the Windows desktop app generated test cases using Ollama 
 A synthetic insurance portal must create one claim when a user submits a complete form. Retrying the same submission after a response timeout must return the original claim ID and create no duplicate. A missing loss date must prevent claim creation.
 
 Check the generated cases for successful creation, validation of the required date, and retry behavior. For the retry case, the expected result should assert both the original claim ID and a single saved claim.
+
+
+## Build a Windows executable
+
+From the repository root in PowerShell, install the dependencies and build with PyInstaller:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt pyinstaller
+.\.venv\Scripts\python.exe -m PyInstaller --onefile --noconsole --name TestCaseGenapp .\TestCaseGenapp.py
+```
+
+The executable is created at `dist/TestCaseGenapp.exe`. Ollama must be installed and running separately, with a model already downloaded.
+
+The standard build uses PyInstaller's built-in hooks. If you add custom hooks to a `hooks` directory in this repository, use `--additional-hooks-dir .\hooks` in the build command. For startup troubleshooting, build once without `--noconsole` to see error output.
